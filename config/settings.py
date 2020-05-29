@@ -16,6 +16,8 @@ import os
 import pymysql
 pymysql.install_as_MySQLdb()
 
+import dj_database_url
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -43,6 +45,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic',
 ]
 
 INSTALLED_DJANGO_APPS = [
@@ -87,6 +90,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -121,16 +126,29 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'testdb',
+#         'USER': 'root',
+#         'PASSWORD': 'bcg062817!',
+#         'HOST': '192.168.0.20',
+#         'POST': '3306',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'testdb',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'trans',
         'USER': 'root',
-        'PASSWORD': 'bcg062817!',
-        'HOST': '192.168.0.20',
-        'POST': '3306',
+        'PASSWORD': 'ysnam007!*!',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -265,3 +283,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 #     'x-csrftoken',
 #     'x-requested-with',
 # ]
+
+# This combines automatic compression with the caching behaviour provided by Django’s ManifestStaticFilesStorage backend.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#  If you want to apply compression but don’t want the caching behaviour then you can use:
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'

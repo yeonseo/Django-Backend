@@ -18,6 +18,9 @@ django-allauth = "*"
 django-rest-framework-jwt = "*"
 djangorestframework-jwt = "*"
 corsheaders = "*"
+dj-database-url = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.8"
