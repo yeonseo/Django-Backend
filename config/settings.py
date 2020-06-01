@@ -126,29 +126,29 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'testdb',
-#         'USER': 'root',
-#         'PASSWORD': 'bcg062817!',
-#         'HOST': '192.168.0.20',
-#         'POST': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'trans',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'testdb',
         'USER': 'root',
-        'PASSWORD': 'ysnam007!*!',
-        'HOST': 'localhost',
-        'PORT': '',
+        'PASSWORD': 'bcg062817!',
+        'HOST': '192.168.0.20',
+        'POST': '3306',
     }
 }
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'trans',
+#         'USER': 'root',
+#         'PASSWORD': 'ysnam007!*!',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -284,7 +284,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 #     'x-requested-with',
 # ]
 
-# This combines automatic compression with the caching behaviour provided by Django’s ManifestStaticFilesStorage backend.
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-#  If you want to apply compression but don’t want the caching behaviour then you can use:
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# # This combines automatic compression with the caching behaviour provided by Django’s ManifestStaticFilesStorage backend.
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# #  If you want to apply compression but don’t want the caching behaviour then you can use:
+# # STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
