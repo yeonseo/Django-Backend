@@ -6,7 +6,6 @@ from .serializers import FreeBoardSerializer, FreeBoardDetailSerializer, FreeBoa
 
 from rest_framework.response import Response
 
-
 class FreeboardsViewSet(ListAPIView):
     serializer_class = FreeBoardSerializer
     queryset = FreeBoard.objects.all()

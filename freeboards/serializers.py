@@ -14,4 +14,4 @@ class FreeBoardDetailSerializer(serializers.ModelSerializer):
 class FreeBoardCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = FreeBoard  # 모델 설정
-        fields = ('id', 'username', 'title', 'board_type', 'content', 'views' , 'files')
+        fields = ('id', 'username', 'title', 'board_type', 'content', 'views', 'files')
