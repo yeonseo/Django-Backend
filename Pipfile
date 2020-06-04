@@ -21,6 +21,9 @@ corsheaders = "*"
 dj-database-url = "*"
 gunicorn = "*"
 whitenoise = "*"
+django-jet = "==1.0.8"
+google-api-python-client = "==1.4.1"
+django-suit = "*"
 
 [requires]
 python_version = "3.8"

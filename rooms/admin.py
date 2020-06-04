@@ -3,7 +3,7 @@ from django.utils.html import mark_safe
 from . import models
 
 
-@admin.register(models.RoomType, models.Facility, models.Amenity, models.HouseRule)
+# @admin.register(models.RoomType, models.Facility, models.Amenity, models.HouseRule)
 class ItemAdmin(admin.ModelAdmin):
 
     """ Item Admin Definition """
@@ -21,7 +21,7 @@ class PhotoInline(admin.TabularInline):
     model = models.Photo
 
 
-@admin.register(models.Room)
+# @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
 
     """ Room Admin Definition """
@@ -97,7 +97,7 @@ class RoomAdmin(admin.ModelAdmin):
     count_photos.short_description = "Photo Count"
 
 
-@admin.register(models.Photo)
+# @admin.register(models.Photo)
 class PhotoAdmin(admin.ModelAdmin):
 
     """ Photo Admin Definition """
