@@ -53,7 +53,7 @@ class FreeboardsFilterOfValue(ListAPIView):
 class FreeboardsFilterOfType(ListAPIView):
 
     def get_queryset(self, board_type=None):
-        queryset = FreeBoard.objects
+        queryset = FreeBoard.objects.order_by('-id')
         if board_type:
             queryset = queryset.filter(board_type=board_type)
         return queryset
@@ -75,5 +75,6 @@ class FreeboardsFilterOfType(ListAPIView):
         return Response(serializer.data)
 
     def get(self, request, *args, **kwargs):
+
         return self.list(request, *args, **kwargs)
 

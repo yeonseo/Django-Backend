@@ -94,3 +94,6 @@ class User(AbstractUser):
             )
             self.save()
         return
+
+    def get_username(self):
+        return self.username
