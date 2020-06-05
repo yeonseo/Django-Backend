@@ -34,10 +34,10 @@ urlpatterns = [
     # path('reservations/', include('reservations.urls')),
     # path('rooms/', include('rooms.urls')),\
     # url(r'^auth/', include('timed_auth_token.urls', namespace='auth')),
-
-    path('api/token/', obtain_jwt_token),
-    path('api/token/verify/', verify_jwt_token),
-    path('api/token/refresh/', refresh_jwt_token),
+    #
+    # path('api/token/', obtain_jwt_token),
+    # path('api/token/verify/', verify_jwt_token),
+    # path('api/token/refresh/', refresh_jwt_token),
 
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),

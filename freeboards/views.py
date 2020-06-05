@@ -5,6 +5,7 @@ from .models import FreeBoard
 from .serializers import FreeBoardSerializer, FreeBoardDetailSerializer, FreeBoardCreateSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
@@ -76,6 +77,7 @@ class FreeboardsFilterOfType(ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+    @permission_classes((IsAuthenticated,))
     @authentication_classes((JSONWebTokenAuthentication,))
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
