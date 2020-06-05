@@ -21,6 +21,8 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.urls import path
 from django.views.generic import TemplateView
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
@@ -28,12 +30,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('freeboards/', include('freeboards.urls')),
     path('users/', include('users.urls')),
-    path('movies/', include('movies.urls')),
-    path('reservations/', include('reservations.urls')),
-    path('rooms/', include('rooms.urls')),
+    # path('movies/', include('movies.urls')),
+    # path('reservations/', include('reservations.urls')),
+    # path('rooms/', include('rooms.urls')),\
+    # url(r'^auth/', include('timed_auth_token.urls', namespace='auth')),
+
+    path('api/token/', obtain_jwt_token),
+    path('api/token/verify/', verify_jwt_token),
+    path('api/token/refresh/', refresh_jwt_token),
+
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    # url(r'^(?P<path>.*)$', TemplateView.as_view(template_name='index.html')),
 ]
 
 # 만약 개발중이라면, 내 폴더 안의 파일들을 제공하게 작성

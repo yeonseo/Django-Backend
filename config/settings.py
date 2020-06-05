@@ -47,23 +47,30 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'whitenoise.runserver_nostatic',
-]
-
-INSTALLED_DJANGO_APPS = [
-    'rest_framework',
     'django_filters',
     'django_countries',
     'django_seed',
-    'rest_auth',
-    'rest_framework.authtoken',
     'django.contrib.sites',
+]
+
+INSTALLED_DJANGO_APPS = [
+    'whitenoise.runserver_nostatic',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_swagger',
+
     'allauth',
     'allauth.account',
-    'rest_auth.registration',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
+
+    'rest_auth',
+    'rest_auth.registration',
+
+    'timed_auth_token',
+
     'corsheaders',
 ]
 
@@ -80,8 +87,6 @@ PROJECT_APPS = [
 ]
 
 INSTALLED_APPS = DJANGO_APPS + INSTALLED_DJANGO_APPS + PROJECT_APPS
-
-SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -202,10 +207,6 @@ MEDIA_URL = "/media/"
 #     os.path.join(CLIENT_DIR, 'dist/my-view'),
 # ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
-}
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -253,7 +254,6 @@ LOGGING = {
     }
 }
 
-REST_USE_JWT = True
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -291,8 +291,53 @@ CORS_ORIGIN_ALLOW_ALL = True
 # #  If you want to apply compression but don’t want the caching behaviour then you can use:
 # # STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 JET_DEFAULT_THEME = 'light-gray'
 JET_SIDE_MENU_COMPACT = False
+
+
+REST_SESSION_LOGIN = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SITE_ID = 1
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+REST_USE_JWT = True
+
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'timed_auth_token.authentication.TimedAuthTokenAuthentication',
+    )
+}
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'users.serializers.UserDetailSerializer'
+}
+
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': 'login',
+    'LOGOUT_URL': 'logout',
+}
+
+JWT_AUTH = {
+    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
+}
