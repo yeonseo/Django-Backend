@@ -312,7 +312,7 @@ REST_USE_JWT = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
@@ -330,6 +330,8 @@ JWT_AUTH = {
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_ALGORITHM': 'HS256',
     'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=5),
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(seconds=10),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=48),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(hours=48),
+
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
