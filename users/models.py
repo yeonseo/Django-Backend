@@ -95,5 +95,5 @@ class User(AbstractUser):
             self.save()
         return
 
-    def get_username(self):
+    def __unicode__(self):
         return self.username
