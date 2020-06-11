@@ -58,7 +58,6 @@ INSTALLED_DJANGO_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_swagger',
 
     'allauth',
     'allauth.account',
@@ -68,9 +67,6 @@ INSTALLED_DJANGO_APPS = [
 
     'rest_auth',
     'rest_auth.registration',
-
-    'timed_auth_token',
-
     'corsheaders',
 ]
 
@@ -319,7 +315,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'timed_auth_token.authentication.TimedAuthTokenAuthentication',
     )
 }
 
