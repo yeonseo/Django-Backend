@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework import status
 
 
 class FreeboardsViewSet(ListAPIView):
@@ -42,6 +43,16 @@ class FreeboardsCreate(CreateAPIView):
     queryset = FreeBoard.objects.all()
     serializer_class = FreeBoardCreateSerializer
 
+    def create(self, request, *args, **kwargs):
+        # user id 반영 추가
+        request.data['username'] = request.user.id
+
+        # 기존코드
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class FreeboardsFilterOfValue(ListAPIView):
     filter = 2
