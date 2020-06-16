@@ -29,6 +29,22 @@ class FreeboardsDetail(RetrieveAPIView):
     filter_fields = ['board_type']
     search_fields = ['title', 'content']
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # view +1 반영 추가
+        request.data['username'] = instance.username
+        request.data['title'] = instance.title
+        request.data['content'] = instance.content
+        instance.views = instance.views + 1
+        partial = kwargs.pop('partial', False)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
 class FreeboardsUpdate(UpdateAPIView):
     lookup_field = 'id'
     queryset = FreeBoard.objects.all()
