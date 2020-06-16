@@ -73,6 +73,16 @@ class FreeboardsDelete(DestroyAPIView):
     queryset = FreeBoard.objects.all()
     serializer_class = FreeBoardSerializer
 
+    def delete(self, request, *args, **kwargs):
+        request_user = request.user.id
+        instance = self.get_object()
+        board_user = instance.username
+        if request_user == board_user:
+            return self.destroy(request, *args, **kwargs)
+        else:
+            content = {'수정 권한 오류': '작성자 정보와 일치하지 않습니다.'}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 class FreeboardsCreate(CreateAPIView):
     queryset = FreeBoard.objects.all()
     serializer_class = FreeBoardCreateSerializer
