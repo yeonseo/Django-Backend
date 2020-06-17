@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Q
 from .models import FreeBoard
 from .serializers import FreeBoardSerializer, FreeBoardDetailSerializer, FreeBoardCreateSerializer
 from rest_framework.response import Response
@@ -109,6 +110,9 @@ class FreeboardsFilterOfValue(ListAPIView):
     search_fields = ['title', 'content']
 
 class FreeboardsFilterOfType(ListAPIView):
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    filter_fields = ['board_type', 'username']
+    search_fields = ['title', 'content', 'username__username']
 
     def get_queryset(self, board_type=None):
         queryset = FreeBoard.objects.order_by('-id')
@@ -116,9 +120,54 @@ class FreeboardsFilterOfType(ListAPIView):
             queryset = queryset.filter(board_type=board_type)
         return queryset
 
-    def get_serializer(self, *args, **kwargs):
+    # def filter_queryset(self, request, queryset, view):
+    #     search_fields = self.get_search_fields(view, request)
+    #     search_terms = self.get_search_terms(request)
+    #
+    #     if not search_fields or not search_terms:
+    #         return queryset
+    #
+    #     orm_lookups = [
+    #         self.construct_search(str(search_field))
+    #         for search_field in search_fields
+    #     ]
+    #
+    #     base = queryset
+    #     conditions = []
+    #     for search_term in search_terms:
+    #         queries = [
+    #             models.Q(**{orm_lookup: search_term})
+    #             for orm_lookup in orm_lookups
+    #         ]
+    #         conditions.append(reduce(operator.or_, queries))
+    #     queryset = queryset.filter(reduce(operator.and_, conditions))
+    #
+    #     if self.must_call_distinct(queryset, search_fields):
+    #         # Filtering against a many-to-many field requires us to
+    #         # call queryset.distinct() in order to avoid duplicate items
+    #         # in the resulting queryset.
+    #         # We try to avoid this if possible, for performance reasons.
+    #         queryset = distinct(queryset, base)
+    #     return queryset
+
+    # def filter_queryset(self, queryset):
+    #     """
+    #     Given a queryset, filter it with whichever filter backend is in use.
+    #
+    #     You are unlikely to want to override this method, although you may need
+    #     to call it either from a list view, or from a custom `get_object`
+    #     method if you want to apply the configured filtering backend to the
+    #     default queryset.
+    #     """
+    #
+    #     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    #     for backend in list(filter_backends):
+    #         queryset = backend().filter_queryset(self.request, queryset, self)
+    #     return queryset
+
+    def get_serializer_class(self):
         serializer_class = FreeBoardDetailSerializer
-        return serializer_class(*args, **kwargs)
+        return serializer_class
 
     def list(self, request, *args, **kwargs):
         board_type = request.query_params.get("board_type", None)
