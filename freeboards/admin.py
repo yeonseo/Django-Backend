@@ -5,6 +5,11 @@ from . import models
 class CustomItemTypeAdmin(admin.ModelAdmin):
     pass
 
+
+@admin.register(models.Comment)
+class CustomCommentAdmin(admin.ModelAdmin):
+    pass
+
 @admin.register(models.FreeBoard)
 class CustomFreeBoardAdmin(admin.ModelAdmin):
     """ Custom FreeBoard Admin """

@@ -20,7 +20,22 @@ class BoardType(AbstractItem):
     """ BoardType Model Definition """
 
     class Meta:
-        verbose_name = "Board Type"
+        verbose_name_plural = "3. 게시물 분류 관리"
+
+
+class Comment(core_models.TimeStampedModel):
+    """ Comment Model Definition """
+
+    id = models.AutoField(db_column='id', primary_key=True)  # Field name made lowercase.
+    username = models.ForeignKey('users.User', related_name="comments", on_delete=models.CASCADE)
+    board = models.ForeignKey('freeboards.FreeBoard', related_name="comments", on_delete=models.CASCADE)
+    comment = models.TextField()
+
+    def __str__(self):
+        return f"{self.username} says: {self.comment}"
+
+    class Meta:
+        verbose_name_plural = "2. 댓글 관리"
 
 class Photo(core_models.TimeStampedModel):
     """ Photo Model Definition """
@@ -43,6 +58,10 @@ class FreeBoard(core_models.TimeStampedModel):
     views = models.IntegerField(default=0)  # 게시물 조회수
     files = models.FileField(max_length=100, null=True, blank=True)  # 게시물 첨부파일
     board_type = models.ManyToManyField('BoardType', blank=True)  #게시물 타입
+    comment = models.ManyToManyField('Comment', blank=True)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = "1. 게시물 관리"
