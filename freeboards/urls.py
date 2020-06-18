@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/$', views.FreeboardsDetail.as_view(), name='boards detail'),
     url(r'^(?P<id>\d+)/update/$', views.FreeboardsUpdate.as_view(), name='boards update'),
     url(r'^(?P<id>\d+)/delete/$', views.FreeboardsDelete.as_view(), name='boards delete'),
+    url(r'^(?P<board>\d+)/comment_create/$', views.CommentCreate.as_view(), name='comment create'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

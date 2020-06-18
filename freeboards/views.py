@@ -1,15 +1,35 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from django.db.models import Q
 from .models import FreeBoard
-from .serializers import FreeBoardSerializer, FreeBoardDetailSerializer, FreeBoardCreateSerializer
+from .models import Comment
+from .serializers import FreeBoardSerializer, FreeBoardDetailSerializer, FreeBoardCreateSerializer, CommentSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework import status
 
+
+class CommentCreate(CreateAPIView):
+    lookup_field = 'board'
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def create(self, request, *args, **kwargs):
+        # instance = self.get_object()
+
+        request.data['username'] = request.user.id
+        # request.data['board'] = kwargs['board']
+        # 하 ㅠ.....
+        #
+        # request.data['board'] = request.parser_context.kwargs['board']
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class FreeboardsViewSet(ListAPIView):
     serializer_class = FreeBoardSerializer

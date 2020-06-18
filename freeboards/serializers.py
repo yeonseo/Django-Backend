@@ -8,9 +8,16 @@ class UserField(serializers.RelatedField):
         return 'username : ' % (user.username)
 
 class CommentField(serializers.ModelSerializer):
+    username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='username')
+
     class Meta:
         model = Comment
         fields = ['id', 'username', 'comment', 'created']
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id', 'username', 'comment', 'board')
 
 class FreeBoardSerializer(serializers.ModelSerializer):
     class Meta:
