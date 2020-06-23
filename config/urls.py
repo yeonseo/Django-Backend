@@ -41,6 +41,9 @@ urlpatterns = [
 
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+
+    path('reference/', include('app.reference.urls')),
+    path('test/', include('app.test_app.urls')),
 ]
 
 # 만약 개발중이라면, 내 폴더 안의 파일들을 제공하게 작성

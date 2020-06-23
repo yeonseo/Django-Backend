@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+import os, sys
 import datetime
 # mysql을 사용하기 위해 추가함
 # import pymysql
@@ -20,6 +20,7 @@ import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
 
 # # for Angular
 # CLIENT_DIR = os.path.join(os.path.join(BASE_DIR, '../ys_angular_test/'), 'my-view')
@@ -80,6 +81,9 @@ PROJECT_APPS = [
     'reservations.apps.ReservationsConfig',
     'lists.apps.ListsConfig',
     'conversations.apps.ConversationsConfig',
+
+    'app.reference',
+    'app.test_app'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + INSTALLED_DJANGO_APPS + PROJECT_APPS
