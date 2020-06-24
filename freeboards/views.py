@@ -94,10 +94,16 @@ class FreeboardsDelete(DestroyAPIView):
     queryset = FreeBoard.objects.all()
     serializer_class = FreeBoardSerializer
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     def delete(self, request, *args, **kwargs):
         request_user = request.user.id
         instance = self.get_object()
-        board_user = instance.username
+        board_user = instance.username_id
+
         if request_user == board_user:
             return self.destroy(request, *args, **kwargs)
         else:
